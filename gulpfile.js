@@ -7,6 +7,7 @@ var gulp = require('gulp'), // Подключаем Gulp
     del = require('del'), // Подключаем библиотеку для удаления файлов и папок
     imagemin = require('gulp-imagemin'), // Подключаем библиотеку для работы с изображениями
     pngquant = require('imagemin-pngquant'), // Подключаем библиотеку для работы с png
+    spritesmith  = require('gulp.spritesmith'), // Подключаем библиотеку для создания png-спрайтов
     cache = require('gulp-cache'), // Подключаем библиотеку кеширования
     extender = require('gulp-html-extend'),//Подключаем бибилиотеку для склейки html-файлов
     sourcemaps = require('gulp-sourcemaps'),//Подключаем плагин, записывающий карту источника в исходный файл
@@ -40,6 +41,24 @@ gulp.task('css-libs', function() { // Создаем таск css-libs
         .pipe(browserSync.reload({
             stream: true
         })) // Обновляем CSS на странице при изменении
+});
+
+gulp.task('sprite', function() {
+    var spriteData =
+        gulp.src('app/img/icons/sprite/*.*') // путь, откуда берем картинки для спрайта
+            .pipe(spritesmith({
+                imgName: 'sprite.png',
+                cssName: '_sprite.scss',
+                cssFormat: 'scss',
+                algorithm: 'binary-tree',
+                /*cssTemplate: 'stylus.template.mustache',
+                cssVarMap: function(sprite) {
+                    sprite.name = 's-' + sprite.name
+                }*/
+            }));
+
+    spriteData.img.pipe(gulp.dest('img/icons/sprites/')); // путь, куда сохраняем картинку
+    spriteData.css.pipe(gulp.dest('app/sass/base/')); // путь, куда сохраняем стили
 });
 
 /*gulp.task('js-libs', function() {
