@@ -60,10 +60,10 @@ gulp.task('sass', function() { // Создаем таск Sass
         autoprefixer(['last 5 versions', '> 5%', 'ie 8', 'ie 7'], {
             cascade: true
         }),
-        /* pxtorem({
-         rootValue: 14,
+         pxtorem({
+         /*rootValue: 14,*/
          replace: false
-         }),*/
+         }),
         focus,
         sorting(),
         stylefmt,
