@@ -43,23 +43,23 @@ gulp.task('css-libs', function() { // Создаем таск css-libs
         })) // Обновляем CSS на странице при изменении
 });
 
-gulp.task('sprite', function() {
+/*gulp.task('sprite', function() {
     var spriteData =
-        gulp.src('app/img/icons/sprite/*.*') // путь, откуда берем картинки для спрайта
+        gulp.src('app/img/icons/sprite/!*.*') // путь, откуда берем картинки для спрайта
             .pipe(spritesmith({
                 imgName: 'sprite.png',
                 cssName: '_sprite.scss',
                 cssFormat: 'scss',
                 algorithm: 'binary-tree',
-                /*cssTemplate: 'stylus.template.mustache',
+                /!*cssTemplate: 'stylus.template.mustache',
                 cssVarMap: function(sprite) {
                     sprite.name = 's-' + sprite.name
-                }*/
+                }*!/
             }));
 
     spriteData.img.pipe(gulp.dest('img/icons/sprites/')); // путь, куда сохраняем картинку
     spriteData.css.pipe(gulp.dest('app/sass/base/')); // путь, куда сохраняем стили
-});
+});*/
 
 /*gulp.task('js-libs', function() {
     return gulp.src([ // Берем все необходимые библиотеки
@@ -79,10 +79,10 @@ gulp.task('sass', function() { // Создаем таск Sass
         autoprefixer(['last 5 versions', '> 5%', 'ie 8', 'ie 7'], {
             cascade: true
         }),
-         pxtorem({
-         /*rootValue: 14,*/
+         /*pxtorem({
+         rootValue: 14,
          replace: false
-         }),
+         }),*/
         focus,
         sorting(),
         stylefmt,
@@ -200,4 +200,4 @@ gulp.task('clear', function(callback) {
 gulp.task('default', ['watch']);
 
 /*
- npm i gulp gulp-sass browser-sync gulp-concat gulp-uglifyjs gulp-rename del gulp-imagemin imagemin-pngquant gulp-cache gulp-html-extend gulp-sourcemaps rimraf yargs gulp-plumber gulp-postcss autoprefixer cssnano postcss-pxtorem postcss-short stylefmt postcss-assets postcss-short-spacing postcss-focus postcss-sorting postcss-font-magician postcss-fixes --save-dev*/
+ npm i gulp gulp-sass browser-sync gulp-concat gulp-uglifyjs gulp-rename del gulp-imagemin imagemin-pngquant gulp.spritesmith gulp-cache gulp-html-extend gulp-sourcemaps rimraf yargs gulp-plumber gulp-postcss autoprefixer cssnano postcss-pxtorem postcss-short stylefmt postcss-assets postcss-short-spacing postcss-focus postcss-sorting postcss-font-magician postcss-fixes --save-dev*/
