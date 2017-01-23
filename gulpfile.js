@@ -211,4 +211,4 @@ gulp.task('clear', function (callback) {
 gulp.task('default', ['watch']);
 
 /*
- npm i gulp gulp-sass browser-sync gulp-concat gulp-uglifyjs gulp-rename del gulp-imagemin imagemin-pngquant gulp.spritesmith gulp-cache gulp-html-extend gulp-sourcemaps rimraf yargs gulp-plumber gulp-postcss autoprefixer cssnano postcss-pxtorem postcss-px-to-em postcss-short stylefmt postcss-assets postcss-short-spacing postcss-focus postcss-sorting postcss-font-magician postcss-fixes --save-dev*/
+ npm i gulp gulp-sass browser-sync gulp-concat gulp-uglifyjs gulp-rename del gulp-imagemin imagemin-pngquant gulp.spritesmith gulp-cache gulp-html-extend gulp-sourcemaps rimraf yargs gulp-plumber gulp-postcss autoprefixer cssnano postcss-pxtorem postcss-px-to-em postcss-short stylefmt postcss-assets postcss-short-spacing postcss-focus postcss-sorting postcss-font-magician postcss-fixes stylelint-config-standard --save-dev*/
