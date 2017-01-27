@@ -24,7 +24,7 @@ var postcss = require('gulp-postcss'),//Блиотека-парсер стиле
     stylefmt = require('stylefmt'),
     assets = require('postcss-assets'),
     shortspacing = require('postcss-short-spacing'),
-    focus = require('postcss-focus'),
+    focus = require('postcss-focus'),//postcss-плагин, делающие стили :hover и :focus одинаковыми.
     sorting = require('postcss-sorting'),
     fontmagic = require('postcss-font-magician'),
     fixes = require('postcss-fixes');
@@ -83,7 +83,7 @@ gulp.task('sass', function () { // Создаем таск Sass
         short,
         fontmagic,
         fixes,
-        autoprefixer(['last 5 versions', '> 5%', 'ie 8', 'ie 7'], {
+        autoprefixer(['last 5 versions', '> 5%', 'ie 8', 'ie 7', 'ie 9', 'safari 5', 'opera 12.1', 'ios 6', 'android 4'], {
             cascade: true
         }),
         /*pxtorem({
