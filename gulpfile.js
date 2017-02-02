@@ -67,6 +67,7 @@ gulp.task('js-libs', function () {
         'app/libs/js-libs/jquery-2.1.3.min.js',
         'app/libs/js-libs/jquery-ui.min.js',
         'app/libs/js-libs/bootstrap.min.js',
+        'app/libs/js-libs/validation.js',
         'app/libs/js-libs/fotorama.js',
         'app/libs/js-libs/lightbox.min.js',
         'app/libs/js-libs/owl.carousel.min.js',
