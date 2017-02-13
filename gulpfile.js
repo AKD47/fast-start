@@ -45,24 +45,23 @@ gulp.task('css-libs', function () { // Создаем таск css-libs
         })) // Обновляем CSS на странице при изменении
 });
 
-// PNG Sprites
-/*gulp.task('png-sprite', function () {
+gulp.task('png-sprite', function () {// PNG Sprites
     var spriteData =
-        gulp.src(path.src.pngSprite + '*.*')
+        gulp.src('app/img/sprites/*.*')// путь, откуда берем картинки для спрайта
             .pipe(spritesmith({
-                imgName: 'sprite.png',
-                cssName: '_png-sprite.sass',
-                cssFormat: 'sass',
-                algorithm: 'binary-tree',
-                cssTemplate: 'sass.template.mustache',
-                cssVarMap: function (sprite) {
-                    sprite.name = 's-' + sprite.name
+                imgName: 'sprite.png',//имя генерируемой картинки
+                cssName: '_png-sprite.sass',//имя css файла, который получится на выходе
+                cssFormat: 'sass',//формат css файла
+                algorithm: 'binary-tree',//способ сортировки изображений
+                cssTemplate: 'sass.template.mustache',//функция или путь до mustache шаблона, дающие возможность настроить CSS-файл на выходе
+                cssVarMap: function (sprite) {//цикл, настраивающий названия CSS переменных
+                    sprite.name = '_s-' + sprite.name
                 }
             }));
 
-    spriteData.img.pipe(gulp.dest('src/images/'));
-    spriteData.css.pipe(gulp.dest('src/sass/'));
-});*/
+    spriteData.img.pipe(gulp.dest('img/sprites/'));// путь, куда сохраняем картинку
+    spriteData.css.pipe(gulp.dest('app/sass/libs/'));// путь, куда сохраняем стили
+});
 
 // SVG Sprites
 /*gulp.task('svg-sprite', function () {
