@@ -42,7 +42,7 @@ gulp.task('css-libs', function () { // Создаем таск css-libs
         .pipe(gulp.dest('css')) // Выгружаем результата в папку app/css
         .pipe(browserSync.reload({
             stream: true
-        })) // Обновляем CSS на странице при изменении
+        })); // Обновляем CSS на странице при изменении
 });
 
 gulp.task('png-sprite', function () {// PNG Sprites
