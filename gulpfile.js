@@ -55,7 +55,7 @@ gulp.task('png-sprite', function () {// PNG Sprites
                 algorithm: 'binary-tree',//способ сортировки изображений
                 cssTemplate: 'sass.template.mustache',//функция или путь до mustache шаблона, дающие возможность настроить CSS-файл на выходе
                 cssVarMap: function (sprite) {//цикл, настраивающий названия CSS переменных
-                    sprite.name = '_s-' + sprite.name
+                    sprite.name = 's-' + sprite.name
                 }
             }));
 
@@ -161,7 +161,6 @@ gulp.task('compress', ['clean'], function () {// Создаем таск compres
             extname: ".js"// Добавляем окончание .js
         }))
         .pipe(uglify()) // Сжимаем JS файл
-        /*.pipe(gulpif(argv.production, uglify())) // <- добавляем вот эту строчку (Сжимаем JS файл)*/
         .pipe(plumber.stop())
         .pipe(gulp.dest('js'));// Выгружаем в папку js
 
@@ -187,8 +186,7 @@ gulp.task('watch', ['compress', 'extend-pages', 'css-libs', 'js-libs', 'img', 's
     gulp.watch('app/libs/**/*', ['css-libs']); // Наблюдение за папкой libs
     gulp.watch('app/img/**/*', ['img']);// Наблюдение за папкой img
     gulp.watch('app/sass/**/*.scss', ['sass']); // Наблюдение за sass файлами в папке sass
-    gulp.watch(['app/html/**/*.html'], ['extend-pages']);// Наблюдение за HTML-файлами в папке html/pages
-    /* gulp.watch(['app/html/!*.html'], ['extend-blocks']);// Наблюдение за HTML-файлами в папке html*/
+    gulp.watch(['app/html/**/*.html'], ['extend-pages']);// Наблюдение за HTML-файлами в папке html
     gulp.watch('app/js/**/*.js', ['compress']); // Наблюдение за js-файлами
 });
 
