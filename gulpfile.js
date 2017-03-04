@@ -83,7 +83,8 @@ gulp.task('png-sprite', function () {// PNG Sprites
 
 });*/
 
-gulp.task('js-libs', function () {
+/*-- таск подключается по желанию разработчика ---*/
+/*gulp.task('js-libs', function () {
     return gulp.src([ // Берем все необходимые библиотеки
         'app/libs/js-libs/jquery.jscrollpane.min.js',
         'app/libs/js-libs/jquery.mousewheel.js',
@@ -97,7 +98,7 @@ gulp.task('js-libs', function () {
         .pipe(concat('libs.min.js')) // Собираем их в кучу в новом файле libs.min.js
         .pipe(uglify()) // Сжимаем JS файл
         .pipe(gulp.dest('js')); // Выгружаем в папку app/js
-});
+});*/
 
 gulp.task('sass', function () { // Создаем таск Sass
     var processors = [// подключаем постпроцессоры в массиве
@@ -116,7 +117,7 @@ gulp.task('sass', function () { // Создаем таск Sass
             rootValue: 14,
             replace: false
         }),*/
-        focus,
+        /*focus,*/
         sorting(),
         stylefmt,
         cssnano
@@ -182,7 +183,7 @@ gulp.task('extend-blocks', function () {
         .pipe(gulp.dest('./'))
 });
 
-gulp.task('watch', ['compress', 'extend-pages', 'css-libs', 'js-libs', 'img', 'sass'], function () {
+gulp.task('watch', ['compress', 'extend-pages', 'css-libs', 'img', 'sass'], function () {
     gulp.watch('app/libs/**/*', ['css-libs']); // Наблюдение за папкой libs
     gulp.watch('app/img/**/*', ['img']);// Наблюдение за папкой img
     gulp.watch('app/sass/**/*.scss', ['sass']); // Наблюдение за sass файлами в папке sass
@@ -206,23 +207,6 @@ gulp.task('img', function () {
             stream: true
         }));
 });
-
-
-/*gulp.task('build', ['img', 'sass', 'scripts'], function() {
-
- var buildCss = gulp.src([ // Переносим библиотеки в продакшен
- 'app/css/main.css',
- 'app/css/libs.min.css'
- ])
- .pipe(gulp.dest('css'))
-
- var buildFonts = gulp.src('app/fonts/!**!/!*') // Переносим шрифты в продакшен
- .pipe(gulp.dest('fonts'))
-
- var buildJs = gulp.src('app/js/!**!/!*') // Переносим скрипты в продакшен
- .pipe(gulp.dest('js'))
-
- });*/
 
 gulp.task('clear', function (callback) {
     return cache.clearAll();
