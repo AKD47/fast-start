@@ -141,7 +141,6 @@ $(document).ready(function () {
             fixedScroll(element, elementPosition, $('#footer'));//вызывается функция с заданными селекторами
         });
     }
-
     /*close scroll block*/
 });
 
