@@ -133,6 +133,10 @@ $(document).ready(function () {
     }
     /*top-form validation*/
 
+    /*fileinput script*/
+    $('#fileinput-1').fileinput();
+    /*close fileinput script*/
+
     /*scroll block*/
     var element = $('#sidebar');//елемент, который необходимо сделать фиксированным
     if (element.length > 0) {//проверка наличия элемента на странице
