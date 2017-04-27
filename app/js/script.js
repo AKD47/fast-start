@@ -142,10 +142,39 @@ $(document).ready(function () {
     if (element.length > 0) {//проверка наличия элемента на странице
         var elementPosition = element.offset().top;//определяем позицию элемента относительно верха документа
         $(window).scroll(function () {//при прокрутке окна браузера
-            fixedScroll(element, elementPosition, $('#footer'));//вызывается функция с заданными селекторами
+            fixedScroll(element,
+                elementPosition, $('#footer'));//вызывается функция с заданными селекторами
         });
     }
     /*close scroll block*/
+
+    /*add form fields in wrapper*/
+    $(document).on('click', '.add-field', function (event) {
+        event.preventDefault();
+        var wrapper = $(this).closest('.cabinet__add-company-form--wrapper').next('.cabinet__add-company-form--hover-wrapper'),//влок в который добовляются поля 
+            count = wrapper.attr('data-count');//счетчик 
+       
+        if (count < 10) { //условие на максимум 10 полей
+            $(this).closest('.cabinet__add-company-form--wrapper').next('.cabinet__add-company-form--hover-wrapper').attr('data-count', parseInt(count) + 1);//увеличиваем счетчик на 1 
+            $(wrapper).append('<div class="cabinet__add-company-form--hover-elements">' +
+                '<p class="cabinet__add-company-form--title"></p>' +
+                '<input class="cabinet__add-company-form--field" type="text" name="mytext[]">' +
+                '<a href="#" class="show-more remove-field">удалить</a>' +
+                '<p class="cabinet__add-company-form--notice"></p>' +
+                '</div>');//добавляем поля            
+        }
+
+    });
+    $(document).on('click', '.remove-field', function (event) {
+        event.preventDefault();
+        var wrapper = $(this).closest('.cabinet__add-company-form--hover-wrapper'),//влок в который добовляются поля 
+            addedBox = $(this).closest('.cabinet__add-company-form--hover-elements'),//элементы, которые добавляются
+            count = wrapper.attr('data-count');//счетчик             
+        addedBox.remove();
+        wrapper.attr('data-count', parseInt(count) - 1);//увеличиваем счетчик на 1        
+    });
+    /*close add form fields in wrapper*/
+    
 });
 
 function fixedScroll(element, elementPosition, blockElement) {//функция фиксированногоблока, с селекторами элемента, его позиционирования и преграждающего блока
