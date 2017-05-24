@@ -1,27 +1,26 @@
 $(document).ready(function () {
 
     /*header mobile menu*/
-    var pull = $('#header-menu'),//блок с кнопкой мобильного меню
-        menu = $('.nav-top'),//главное меню
-        button = pull.find('.mob-btn');//кнопка показать/скрыть
-    menuHeight = menu.height();
-
-    $(pull).on('click', function (e) {//при клике на мобильное меню
-        e.preventDefault();//убираем свойство ссылки по умолчанию
-        if (button.hasClass('show')) {//при наличии у кнопки активного класса
-            button.removeClass('show');//убираем данный класс
-            menu.slideUp('fast');//скрываем меню
-        } else {//при отсутсвии активного класса
-            button.addClass('show');//добовляем его кнопке
-            menu.slideDown('fast');//показываем меню
+    $(document).on('click', '#header-burger', function (event) {
+        var pull = $('#header-burger'),
+            menu = $('.header__nav');
+        event.preventDefault();
+        if (pull.hasClass('show')) {
+            pull.removeClass('show');
+            menu.slideUp('fast');
+        } else {
+            pull.addClass('show');
+            menu.slideDown('fast');
         }
     });
-    $(document).on('click', function (e) {//при клике на поле
-        if ($(e.target).closest('.header__navbar').length != 1) {//не содержащего навигационную панель
-            $('.nav-top').slideUp('fast');//скрываем меню
-            $('.mob-btn').removeClass('show');//убираем у кнопки активный класс
-        }
-    });
+    if (window.innerWidth < 670) {
+        $(document).on('click', function (e) {
+            if ($(e.target).closest('.header__navigation').length != 1) {
+                $('.header__nav').slideUp('fast');
+                $('#burger').removeClass('show');
+            }
+        });
+    }
     /*close header mobile menu*/
 
     /*animate scroll menu*/
@@ -48,38 +47,38 @@ $(document).ready(function () {
         }
     });
     /*close block animation*/
-    
+
     /*yandex map*/
     var map = new Map();
     map.init({
-        selector:'#map2',
-        center:'г. Донецк, ул. Артема 75',
-        zoom:12,
+        selector: '#map2',
+        center: 'г. Донецк, ул. Артема 75',
+        zoom: 12,
         placemarks: [
             {
-                address:'г. Донецк, ул. Артема 75',
+                address: 'г. Донецк, ул. Артема 75',
                 options: [
-                    {key:'draggable',value:true}
+                    {key: 'draggable', value: true}
                 ],
                 properties: [
-                    {key:'hintContent',value:'Тыц'},
-                    {key:'balloonContentHeader', value:"Предприятия Донецка"},
-                    {key:'balloonContentBody', value:"<h1>ArtCraft</h1>"}
+                    {key: 'hintContent', value: 'Тыц'},
+                    {key: 'balloonContentHeader', value: "Предприятия Донецка"},
+                    {key: 'balloonContentBody', value: "<h1>ArtCraft</h1>"}
                 ]
             },
             {
-                address:'г. Донецк, ул. Артема 100',
+                address: 'г. Донецк, ул. Артема 100',
                 options: [
-                    {key:'draggable',value:true}
+                    {key: 'draggable', value: true}
                 ],
                 properties: [
-                    {key:'hintContent',value:'Пока'}
+                    {key: 'hintContent', value: 'Пока'}
                 ]
             }
         ]
-    });    
+    });
     /*close yandex map*/
-    
+
     /*top-form validation*/
     if (document.getElementById('top-form')) {
         var validation = new Validation();
@@ -108,7 +107,7 @@ $(document).ready(function () {
             ajaxSubmitSuccess: function (responseText, err, form) {
 
                 var formData = new FormData(form);//объявляем новую FormData
-                formData.append('action','getmessage');//задаем действие и значение
+                formData.append('action', 'getmessage');//задаем действие и значение
                 if (!err) {
                     $.ajax({
                         url: myajax.url,
@@ -117,10 +116,10 @@ $(document).ready(function () {
                         contentType: false,
                         processData: false,
                         success: function (data) {
-                            console.log( data );
-                            if(data.result === 'success'){
+                            console.log(data);
+                            if (data.result === 'success') {
                                 form.reset();
-                            }else{
+                            } else {
                                 alert('Некорректно заполнено!!')
                             }
                         }
@@ -153,7 +152,7 @@ $(document).ready(function () {
         event.preventDefault();
         var wrapper = $(this).closest('.cabinet__add-company-form--wrapper').next('.cabinet__add-company-form--hover-wrapper'),//влок в который добовляются поля 
             count = wrapper.attr('data-count');//счетчик 
-       
+
         if (count < 10) { //условие на максимум 10 полей
             $(this).closest('.cabinet__add-company-form--wrapper').next('.cabinet__add-company-form--hover-wrapper').attr('data-count', parseInt(count) + 1);//увеличиваем счетчик на 1 
             $(wrapper).append('<div class="cabinet__add-company-form--hover-elements">' +
@@ -174,7 +173,14 @@ $(document).ready(function () {
         wrapper.attr('data-count', parseInt(count) - 1);//увеличиваем счетчик на 1        
     });
     /*close add form fields in wrapper*/
-    
+
+    /*find img-tag in text block and wraps it up in "a"-tag*/
+    $('.business__descr p').find('img').each(function () {
+        $(this).addClass('newsImg');
+        $(this).wrap('<a href="' + $(this).attr('src') + '" data-lightbox="image-1"></a>');
+        $(this).css({width: '100%', height: '100%'});
+    });
+    /*close find img in text block and wraps it up in "a"-tag*/
 });
 
 function fixedScroll(element, elementPosition, blockElement) {//функция фиксированногоблока, с селекторами элемента, его позиционирования и преграждающего блока
