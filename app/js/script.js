@@ -184,6 +184,23 @@ $(document).ready(function () {
         $(this).css({width: '100%', height: '100%'});
     });
     /*close find img in text block and wraps it up in "a"-tag*/
+
+    /*tabs*/
+    $('.tab-content__wrapper').each(function (i) {
+        if (i != 0) {
+            $(this).hide(0)
+        }
+    });
+    $(document).on('click', 'tab-links a', function (e) {
+        e.preventDefault();
+        var tabId = $(this).attr('href');
+        $('.tab-links a').removeClass('active');
+        $(this).addClass('active');
+        $('.tab-content__wrapper').hide(0);
+        $(tabId).fadeIn();
+    });
+    /*close business pkg tabs*/
+    
 });
 
 function fixedScroll(element, elementPosition, blockElement) {//функция фиксированногоблока, с селекторами элемента, его позиционирования и преграждающего блока
