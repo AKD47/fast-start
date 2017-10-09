@@ -18,14 +18,10 @@ var gulp = require('gulp'), // Подключаем Gulp
 
 var postcss = require('gulp-postcss'),//Блиотека-парсер стилей для работы с postcss-плагинами
     autoprefixer = require('autoprefixer'),// Подключаем библиотеку для автоматического добавления префиксов
-    cssnano = require('cssnano'),//postcss-плагин, для минификации CSS кода, идущего на продакшен.
-    pxtorem = require('postcss-pxtorem'),//postcss-плагин, для перевода px в rem, идущего на продакшен.
-    pxtoem = require('postcss-px-to-em'),//postcss-плагин, для перевода px в em, идущего на продакшен.
+    cssnano = require('cssnano'),//postcss-плагин, для минификации CSS кода, идущего на продакшен.   
     short = require('postcss-short'),
     stylefmt = require('stylefmt'),
-    assets = require('postcss-assets'),
-    shortspacing = require('postcss-short-spacing'),
-    focus = require('postcss-focus'),//postcss-плагин, делающие стили :hover и :focus одинаковыми.
+    assets = require('postcss-assets'),      
     sorting = require('postcss-sorting'),
     fontmagic = require('postcss-font-magician'),
     fixes = require('postcss-fixes');
@@ -101,6 +97,30 @@ gulp.task('browser-sync', function () { // Создаем таск browser-sync
         },
         notify: false // Отключаем уведомления
     });
+});
+
+gulp.task('vendor', ['clean'], function () {
+    return gulp.src(['app/js-libs/jquery-2.1.3.min.js',
+        'app/js-libs/jquery-ui.min.js',
+        'app/js-libs/bootstrap.min.js',
+        'app/js-libs/jquery.fancybox.js',
+        'app/js-libs/fileinput.js',
+        'app/js-libs/jquery.jscrollpane.min.js',
+        'app/js-libs/jquery.mousewheel.js',
+        'app/js-libs/perfect-scrollbar.jquery.js',
+        'app/js-libs/lightbox.min.js',
+        'app/js-libs/countdown.js',
+        'app/js-libs/map.js',
+        'app/js-libs/validation.js',
+        'app/js-libs/fotorama.js',
+        'app/js-libs/slick.js',
+        'app/js-libs/owl.carousel.min.js'])// Берем все необходимые библиотеки
+        .pipe(plumber())
+        .pipe(concat('vendor.js'))// Собираем их в кучу в новом файле vendor.js
+        .pipe(rename({}))
+        /*.pipe(uglify()) // Сжимаем JS файл*/
+        .pipe(plumber.stop())
+        .pipe(gulp.dest('js'));// Выгружаем в папку js
 });
 
 gulp.task('compress', ['clean'], function () {// Создаем таск compress
