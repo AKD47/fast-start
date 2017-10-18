@@ -1,5 +1,5 @@
 # Стартовый проект верстки/front-end
-Набор включенных технологий: HTML, CSS, JS, Gulp, SCSS, PostCSS, JQuery, Bower
+Набор включенных технологий: Jade, CSS, JS, Gulp, SCSS, PostCSS, JQuery, Bower
 
 В файл libs.min.css подключен normalize.css
 
