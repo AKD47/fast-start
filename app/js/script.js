@@ -80,7 +80,7 @@ $(document).ready(function () {
             });
         }
     });
-    /*close block animation*/   
+    /*close block animation*/
 
     /*top-form validation*/
     if (document.getElementById('top-form')) {
@@ -184,6 +184,113 @@ $(document).ready(function () {
         $(this).css({width: '100%', height: '100%'});
     });
     /*close find img in text block and wraps it up in "a"-tag*/
+
+    /*tabs*/
+    $('.tab-content__wrapper').each(function (i) {
+        if (i != 0) {
+            $(this).hide(0)
+        }
+    });
+    $(document).on('click', 'tab-links a', function (e) {
+        e.preventDefault();
+        var tabId = $(this).attr('href');
+        $('.tab-links a').removeClass('active');
+        $(this).addClass('active');
+        $('.tab-content__wrapper').hide(0);
+        $(tabId).fadeIn();
+    });
+    /*close business pkg tabs*/
+
+    /*basket counters*/
+    $(document).on('click', '.plus', function () {
+        event.preventDefault();
+        var count = $('.product__content--counter').find('.number'),
+            val = parseInt($('.product__content--counter').find('.number').val());
+        if (val == 999) {
+            return false;
+        } else {
+            count.val(val + 1);
+            $('.js-single-addtocart').attr('data-quantity', count.val());
+            $('.js-single-favorites').attr('data-quantity', count.val());
+        }
+        return false;
+    });
+
+    $(document).on('click', '.minus', function () {
+        event.preventDefault();
+        var count = $('.product__content--counter').find('.number');
+        var counter = parseInt(count.val()) - 1;
+        counter = counter < 1 ? 1 : counter;
+        count.val(counter);
+        count.change();
+        $('.js-single-addtocart').attr('data-quantity', counter);
+        $('.js-single-favorites').attr('data-quantity', counter);
+        return false;
+    });
+
+    $(document).on('keyup', '.product__content--counter .number', function () {
+        var count = $(this),
+            val = parseInt(count.val()),
+            box = $(this).closest('.header__basket--item'),
+            list = box.closest('.header__basket--inner').find('.header__basket--field');
+
+        if (val > 999) {
+            count.val(999).attr('value', 999);
+        } else if (val < 1) {
+            count.val(1).attr('value', 1);
+        }
+
+        if (count.hasClass('number')) {
+            $('.js-single-favorites').attr('data-quantity', count.val());
+        } else if (count.hasClass('modal__number')) {
+            $('.js-modal-favorites').attr('data-quantity', count.val());
+        }
+
+        var itemPrice = parseInt(box.find('.header__basket--counter').find('.header__basket--price span').html()),
+            counterItems = parseInt(box.find('.header__basket--field').val());
+        if (isNaN(counterItems)) {
+            counterItems = 1;
+            box.find('.header__basket--field').val(1).attr('val', 1);
+        }
+        var total = itemPrice * counterItems,
+            totalPrice = '<span>' + total + '</span>' + '<i class="fa fa-rub" aria-hidden="true"></i>';
+        box.find('.header__basket--total').html(totalPrice);
+        box.find('.header__basket--to-basket').attr('data-quantity', counterItems);
+        box.find('.product__like').attr('data-quantity', counterItems);
+
+        var totalCount = 0;
+        $.each(list, function () {
+            totalCount += parseInt($(this).val());
+        });
+        box.closest('.full').find('.js-basket-total').text(totalCount);
+
+        var type = box.data('type');
+        if (type !== null) {
+            updateFavoritesQuantity(type, counterItems);
+        }
+
+        var hash = box.data('hash');
+        if (typeof hash !== 'undefined' && hash !== '') {
+            updateCartQuantity(hash, counterItems);
+        }
+        return false;
+    });
+
+    $(document).on('blur', '.product__content--counter .number', function () {
+        var count = $(this),//находим поле с цифрой
+            val = parseInt(count.val());//переводим значение в цифровой формат
+        if (isNaN(val)) {//если значение нет
+            count.val(1);//присваиваем значение 1
+        }
+
+        if (count.hasClass('number')) {
+            $('.js-single-favorites').attr('data-quantity', count.val());
+        } else if (count.hasClass('modal__number')) {
+            $('.js-modal-favorites').attr('data-quantity', count.val());
+        }
+    });
+    /*close*/
+
 });
 
 function fixedScroll(element, elementPosition, blockElement) {//функция фиксированногоблока, с селекторами элемента, его позиционирования и преграждающего блока
