@@ -55,6 +55,14 @@ $(document).ready(function () {
             }
         });
     }
+    $(document).mouseup(function (event){ // отслеживаем событие клика по веб-документу
+        var block = $('.hideform'); // определяем элемент, к которому будем применять условия (можем указывать ID, класс либо любой другой идентификатор элемента)
+        if (!block.is(event.target) // проверка условия если клик был не по нашему блоку
+            && block.has(event.target).length === 0) { // проверка условия если клик не по его дочерним элементам
+            $('.cons').removeClass('show-form');
+            block.removeClass('is-visible'); // если условия выполняются - скрываем наш элемент
+        }
+    });
     /*close header mobile menu*/
 
     /*animate scroll menu*/
