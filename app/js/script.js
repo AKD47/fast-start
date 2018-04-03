@@ -82,58 +82,75 @@ $(document).ready(function () {
     });
     /*close block animation*/
 
-    /*top-form validation*/
-    if (document.getElementById('top-form')) {
-        var validation = new Validation();
-        validation.init({
-            ajax: true,
-            ajaxUrl: myajax.url,
-            classItem: "main-form__field",//елемент, который нужно провалидировать
-            eventElement: '#top-form-submit',//событие по клику кнопки 'Отправить'
-            items: [//масив объектов
-                {
-                    item: 'email', tpl: 'email', tplMsg: 'некорректный e-mail'//объект эл.почта с сообщением о некорректном вводе
-                },
-                {
-                    item: 'name', tpl: 'kir+lat', tplMsg: 'только буквы'//объект имя с сообщением о некорректном вводе
-                },
-                {
-                    item: 'phone', tpl: 'number', tplMsg: 'только цыфры'//объект имя с сообщением о некорректном вводе
-                },
-                {
-                    item: 'obj', tpl: 'kir+lat', tplMsg: 'только буквы'//объект имя с сообщением о некорректном вводе
-                },
-                {
-                    item: 'time', tpl: 'kir+lat', tplMsg: 'только буквы'//объект имя с сообщением о некорректном вводе
-                }
-            ],
-            ajaxSubmitSuccess: function (responseText, err, form) {
+    /*contacts form*/
+    $('#contact-name, #contact-email, #contact-phone, #contact-text').unbind().blur(function () {
 
-                var formData = new FormData(form);//объявляем новую FormData
-                formData.append('action', 'getmessage');//задаем действие и значение
-                if (!err) {
-                    $.ajax({
-                        url: myajax.url,
-                        type: "POST",
-                        data: formData,
-                        contentType: false,
-                        processData: false,
-                        success: function (data) {
-                            console.log(data);
-                            if (data.result === 'success') {
-                                form.reset();
-                            } else {
-                                alert('Некорректно заполнено!!')
-                            }
-                        }
-                    });
-                    return false;
+        var id = $(this).attr('id');
+        var val = $(this).val();
+
+        switch (id) {
+            case 'contact-name':
+                var rv_name = /^[a-zA-Zа-яА-Я]+$/;
+                if (val.length > 2 && val != '' && rv_name.test(val)) {
+                    $(this).removeClass('error').addClass('not_error');
+                } else {
+                    $(this).removeClass('not_error').addClass('error');
                 }
-                return false;
+                break;
+
+            case 'contact-email':
+                var rv_email = /^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_.-])+\.([a-zA-Z])+([a-zA-Z])+/;
+                if (val != '' && rv_email.test(val)) {
+                    $(this).removeClass('error').addClass('not_error');
+                } else {
+                    $(this).removeClass('not_error').addClass('error');
+                }
+                break;
+
+            case 'contact-phone':
+                var rv_phone = /^([0-9_-])+/;
+                if (val != '' && rv_phone.test(val)) {
+                    $(this).removeClass('error').addClass('not_error');
+                } else {
+                    $(this).removeClass('not_error').addClass('error');
+                }
+                break;
+
+            case 'contact-text':
+                if (val != '' && val.length < 5000) {
+                    $(this).removeClass('error').addClass('not_error');
+                } else {
+                    $(this).removeClass('not_error').addClass('error');
+                }
+                break;
+
+        } // end switch(...)
+
+    }); // end blur()
+    $('#contact-form').submit(function (event) {
+        event.preventDefault();
+        var name = $('#contact-name').val(),
+            mail = $('#contact-email').val(),
+            phone = $('#contact-phone').val(),
+            message = $('#contact-text').val();
+        $.ajax({
+            url: myajax.url,
+            type: "POST",
+            data: {
+                action: 'contact',
+                name: name,
+                mail: mail,
+                phone: phone,
+                message: message
+            },
+            success: function(data){
+                $('#contact-form input, textarea').val('').removeClass('error, not_error').text('');
+                // alert(data);
             }
-        });
-    }
-    /*top-form validation*/
+        }); // end ajax({...})
+        return false;
+    }); // end submit()
+    /*close*/
 
     /*fileinput script*/
     $('#fileinput-1').fileinput();
