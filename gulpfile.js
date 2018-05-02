@@ -2,7 +2,7 @@ var gulp = require('gulp'), // Подключаем Gulp
     sass = require('gulp-sass'), //Подключаем Sass пакет,
     browserSync = require('browser-sync').create(), // Подключаем Browser Sync
     jade = require('gulp-jade'); // Подключаем jade
-    concat = require('gulp-concat'), // Подключаем gulp-concat (для конкатенации файлов)
+concat = require('gulp-concat'), // Подключаем gulp-concat (для конкатенации файлов)
     uglify = require('gulp-uglifyjs'), // Подключаем gulp-uglifyjs (для сжатия JS)
     rename = require('gulp-rename'), // Подключаем библиотеку для переименования файлов
     del = require('del'), // Подключаем библиотеку для удаления файлов и папок
@@ -11,14 +11,14 @@ var gulp = require('gulp'), // Подключаем Gulp
     spritesmith = require('gulp.spritesmith'), // Подключаем библиотеку для создания png-спрайтов
     svgstore = require('gulp-svgstore'),//// Подключаем библиотеку для объединения SVG в один файл
     svgmin = require('gulp-svgmin'),//Подключаем библиотеку для минификации SVG
-    cache = require('gulp-cache'), // Подключаем библиотеку кеширования   
+    cache = require('gulp-cache'), // Подключаем библиотеку кеширования
     sourcemaps = require('gulp-sourcemaps'),//Подключаем плагин, записывающий карту источника в исходный файл
     rimraf = require('rimraf'),//Очищает указанные исходники
     plumber = require('gulp-plumber');//Подключаем плагин, который не останавливает задачи от остановки во время их выполнения при возникновении ошибки
 
 var postcss = require('gulp-postcss'),//Блиотека-парсер стилей для работы с postcss-плагинами
     autoprefixer = require('autoprefixer'),// Подключаем библиотеку для автоматического добавления префиксов
-    cssnano = require('cssnano'),//postcss-плагин, для минификации CSS кода, идущего на продакшен.   
+    cssnano = require('cssnano'),//postcss-плагин, для минификации CSS кода, идущего на продакшен.
     short = require('postcss-short'),
     stylefmt = require('stylefmt'),
     assets = require('postcss-assets'),
@@ -70,8 +70,8 @@ gulp.task('sass', function () { // Создаем таск Sass
             cascade: true
         }),
         sorting(),
-        stylefmt,
-        cssnano
+        // cssnano,
+        stylefmt
     ];
     return gulp.src('app/sass/**/*.scss')
         .pipe(plumber())
@@ -79,7 +79,7 @@ gulp.task('sass', function () { // Создаем таск Sass
         .pipe(sass().on('error', sass.logError))
         .pipe(postcss(processors))
         .pipe(rename({
-            suffix: ".min",
+            // suffix: ".min",
             extname: ".css"
         }))
         .pipe(sourcemaps.write('.', {sourceRoot: 'css-source'}))
@@ -104,29 +104,29 @@ gulp.task('browser-sync', function () { // Создаем таск browser-sync
 });
 
 /*vendor*/
-gulp.task('vendor', ['clean'], function () {
-    return gulp.src(['app/js-libs/jquery-2.1.3.min.js',
-        'app/js-libs/jquery-ui.min.js',
-        'app/js-libs/bootstrap.min.js',
-        'app/js-libs/jquery.fancybox.js',
-        'app/js-libs/fileinput.js',
-        'app/js-libs/jquery.jscrollpane.min.js',
-        'app/js-libs/jquery.mousewheel.js',
-        'app/js-libs/perfect-scrollbar.jquery.js',
-        'app/js-libs/lightbox.min.js',
-        'app/js-libs/countdown.js',
-        'app/js-libs/map.js',
-        'app/js-libs/validation.js',
-        'app/js-libs/fotorama.js',
-        'app/js-libs/slick.js',
-        'app/js-libs/owl.carousel.min.js'])// Берем все необходимые библиотеки
-        .pipe(plumber())
-        .pipe(concat('vendor.js'))// Собираем их в кучу в новом файле vendor.js
-        .pipe(rename({}))
-        /*.pipe(uglify()) // Сжимаем JS файл*/
-        .pipe(plumber.stop())
-        .pipe(gulp.dest('./public/js'));// Выгружаем в папку js
-});
+// gulp.task('vendor', ['clean'], function () {
+//     return gulp.src(['app/js-libs/jquery-2.1.3.min.js',
+//         'app/js-libs/jquery-ui.min.js',
+//         'app/js-libs/bootstrap.min.js',
+//         'app/js-libs/jquery.fancybox.js',
+//         'app/js-libs/fileinput.js',
+//         'app/js-libs/jquery.jscrollpane.min.js',
+//         'app/js-libs/jquery.mousewheel.js',
+//         'app/js-libs/perfect-scrollbar.jquery.js',
+//         'app/js-libs/lightbox.min.js',
+//         'app/js-libs/countdown.js',
+//         'app/js-libs/map.js',
+//         'app/js-libs/validation.js',
+//         'app/js-libs/fotorama.js',
+//         'app/js-libs/slick.js',
+//         'app/js-libs/owl.carousel.min.js'])// Берем все необходимые библиотеки
+//         .pipe(plumber())
+//         .pipe(concat('vendor.js'))// Собираем их в кучу в новом файле vendor.js
+//         .pipe(rename({}))
+//         /*.pipe(uglify()) // Сжимаем JS файл*/
+//         .pipe(plumber.stop())
+//         .pipe(gulp.dest('./public/js'));// Выгружаем в папку js
+// });
 
 /*compress*/
 gulp.task('compress', ['clean'], function () {// Создаем таск compress
@@ -134,10 +134,10 @@ gulp.task('compress', ['clean'], function () {// Создаем таск compres
         .pipe(plumber())
         .pipe(concat('script.js'))// Собираем их в кучу в новом файле script.js
         .pipe(rename({
-            suffix: ".min",// Добавляем суффикс .min
+            // suffix: ".min",// Добавляем суффикс .min
             extname: ".js"// Добавляем окончание .js
         }))
-        .pipe(uglify()) // Сжимаем JS файл
+        // .pipe(uglify()) // Сжимаем JS файл
         .pipe(plumber.stop())
         .pipe(gulp.dest('./public/js'))// Выгружаем в папку js
         .pipe(browserSync.stream({}));
@@ -156,7 +156,8 @@ gulp.task('jade', function() {
         .pipe(jade({
             pretty: true
         }))
-        .pipe(gulp.dest('./public'));
+        .pipe(gulp.dest('./public'))
+        .pipe(browserSync.stream({}));
 });
 
 gulp.task('watch', ['compress', 'jade', 'css-libs', 'img', 'sass'], function () {
