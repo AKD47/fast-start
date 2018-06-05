@@ -16,6 +16,11 @@ body{
     //font-family: 'Roboto', sans-serif;
     //font-family: 'Source Sans Pro', sans-serif;
     //font-family: 'Lato', sans-serif;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
 }
 
 a {
