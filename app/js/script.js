@@ -314,10 +314,14 @@ $(document).ready(function () {
         var value = $(this).val();//получаем значение поля
         var indicator = $(this).next('.pass-value');//находим блок с индикатором, рассположенный за полем
         var value_label = indicator.find('.pass-value__title');//находим заголовок индикатора
+        var confirm = $(this).closest('.top__form--fields-wrapper').find('.top__form--field.third');//находим поле для проверки пароля
+
         if ( value.length < 8 && value.match(/[a-zA-Z0-9]/) ) {//при проверке ввода в поле менне 8 символов с обязательным наличием больших латинских букв и цифр
             $(this).removeClass('valid').addClass('invalid');//полю добавляется класс invalid
+            confirm.attr('disabled', false);//убираем у поля проверки запрет на ввод
         } else {// если услови выполнено
             $(this).removeClass('invalid').addClass('valid');//полю добавляется класс valid
+            confirm.attr('disabled', true);//добовляем полю проверки запрет на ввод
         }
         if ( $(this).hasClass('invalid') ) {//при наличии у поля класса invalid
             indicator.show().removeClass('strong');//показывается блок индикатора и ему убирается класс strong
@@ -337,6 +341,7 @@ $(document).ready(function () {
         var main_passw = $(this).closest('.top__form--fields-wrapper').find('.top__form--field.second');//находим поле ранее введеного пароля
         var indicator = $(this).next('.pass-value');//находим блок с индикатором, рассположенный за полем
         var value_label = indicator.find('.pass-value__title');//находим заголовок индикатора
+
         if( value == main_passw.val()) {//при совпадении значения обоих полей
             $(this).removeClass('invalid').addClass('valid');//полю проверки добавляется класс valid
         } else {// если услови не выполнено
@@ -344,14 +349,14 @@ $(document).ready(function () {
         }
         if ( $(this).hasClass('invalid') ) {//при проверке наличия у поля проверки класса invalid
             indicator.show().removeClass('strong');//показывается индикатор и ему удаляется класс strong
-            value_label.text('Hesla ne shodují');//заголовку добовляется нужная надпись
+            value_label.text('Heslo neodpovídá');//заголовку добовляется нужная надпись
         } else if ( $(this).hasClass('valid') ){//при проверке наличия у поля проверки класса valid
             indicator.addClass('strong');//индикатору добавляется класс strong
             value_label.text('Hesla se shodují');//заголовку добовляется нужная надпись
         }
         if ( value.length < 1 ) {//если поле не заполнено
             indicator.hide().removeClass('strong');//индикатор скрывается и у него убирается класс strong
-            value_label.text('Hesla ne shodují');//заголовок ставиться по умолчанию
+            value_label.text('Heslo neodpovídá');//заголовок ставиться по умолчанию
         }
     });
     /*close password*/
