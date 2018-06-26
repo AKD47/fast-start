@@ -2,7 +2,7 @@ var gulp = require('gulp'), // Подключаем Gulp
     sass = require('gulp-sass'), //Подключаем Sass пакет,
     browserSync = require('browser-sync').create(), // Подключаем Browser Sync
     jade = require('gulp-jade'); // Подключаем jade
-concat = require('gulp-concat'), // Подключаем gulp-concat (для конкатенации файлов)
+    concat = require('gulp-concat'), // Подключаем gulp-concat (для конкатенации файлов)
     uglify = require('gulp-uglifyjs'), // Подключаем gulp-uglifyjs (для сжатия JS)
     rename = require('gulp-rename'), // Подключаем библиотеку для переименования файлов
     del = require('del'), // Подключаем библиотеку для удаления файлов и папок
@@ -40,24 +40,24 @@ gulp.task('css-libs', function () { // Создаем таск css-libs
         .pipe(browserSync.stream({})); // Обновляем CSS на странице при изменении
 });
 
-/*png-sprite*/
-gulp.task('png-sprite', function () {// PNG Sprites
-    var spriteData =
-        gulp.src('app/img/sprites/*.*')// путь, откуда берем картинки для спрайта
-            .pipe(spritesmith({
-                imgName: 'sprite.png',//имя генерируемой картинки
-                cssName: '_png-sprite.sass',//имя css файла, который получится на выходе
-                cssFormat: 'sass',//формат css файла
-                algorithm: 'binary-tree',//способ сортировки изображений
-                cssTemplate: 'sass.template.mustache',//функция или путь до mustache шаблона, дающие возможность настроить CSS-файл на выходе
-                cssVarMap: function (sprite) {//цикл, настраивающий названия CSS переменных
-                    sprite.name = 's-' + sprite.name
-                }
-            }));
-
-    spriteData.img.pipe(gulp.dest('./public/img/sprites/'));// путь, куда сохраняем картинку
-    spriteData.css.pipe(gulp.dest('app/sass/libs/'));// путь, куда сохраняем стили
-});
+// /*png-sprite*/
+// gulp.task('png-sprite', function () {// PNG Sprites
+//     var spriteData =
+//         gulp.src('app/img/sprites/*.*')// путь, откуда берем картинки для спрайта
+//             .pipe(spritesmith({
+//                 imgName: 'sprite.png',//имя генерируемой картинки
+//                 cssName: '_png-sprite.sass',//имя css файла, который получится на выходе
+//                 cssFormat: 'sass',//формат css файла
+//                 algorithm: 'binary-tree',//способ сортировки изображений
+//                 cssTemplate: 'sass.template.mustache',//функция или путь до mustache шаблона, дающие возможность настроить CSS-файл на выходе
+//                 cssVarMap: function (sprite) {//цикл, настраивающий названия CSS переменных
+//                     sprite.name = 's-' + sprite.name
+//                 }
+//             }));
+//
+//     spriteData.img.pipe(gulp.dest('./public/img/sprites/'));// путь, куда сохраняем картинку
+//     spriteData.css.pipe(gulp.dest('app/sass/libs/'));// путь, куда сохраняем стили
+// });
 
 /*sass*/
 gulp.task('sass', function () { // Создаем таск Sass
@@ -144,6 +144,13 @@ gulp.task('compress', ['clean'], function () {// Создаем таск compres
 
 });
 
+/*fonts*/
+gulp.task('fonts', function() {
+    return gulp.src('app/fonts/**/*.*')
+        .pipe(gulp.dest('./public/fonts'))
+        .pipe(browserSync.stream({}));
+});
+
 /*clean*/
 gulp.task("clean", function (cb) {
     rimraf('./js/script.min.js', cb);
@@ -160,12 +167,13 @@ gulp.task('jade', function() {
         .pipe(browserSync.stream({}));
 });
 
-gulp.task('watch', ['compress', 'jade', 'css-libs', 'img', 'sass'], function () {
+gulp.task('watch', ['compress', 'jade', 'css-libs', 'img', 'sass', 'fonts'], function () {
     gulp.watch('app/libs/**/*', ['css-libs']); // Наблюдение за папкой libs
     gulp.watch('app/img/**/*', ['img']);// Наблюдение за папкой img
     gulp.watch('app/sass/**/*.scss', ['sass']); // Наблюдение за sass файлами в папке sass
     gulp.watch(['app/template/**/*.jade'], ['jade']);// Наблюдение за HTML-файлами в папке html
     gulp.watch('app/js/**/*.js', ['compress']); // Наблюдение за js-файлами
+    gulp.watch('app/fonts/**/*', ['fonts']); // Наблюдение за js-файлами
 });
 
 
