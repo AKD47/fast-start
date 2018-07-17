@@ -82,6 +82,21 @@ $(document).ready(function () {
     });
     /*close block animation*/
 
+    /*go to top*/
+    $('#go-top').click(function (event) {
+        event.preventDefault();
+        $("html, body").animate({scrollTop: 0}, "slow")
+    });
+
+    $(window).scroll(function () {
+        if ($(this).scrollTop() != 0) {
+            $('#go-top').fadeIn();
+        } else {
+            $('#go-top').fadeOut();
+        }
+    });
+    /*close script*/
+
     /*contacts form*/
     $('#contact-name, #contact-email, #contact-phone, #contact-text').unbind().blur(function () {
 
